@@ -1,0 +1,30 @@
+{%extends "bookshopapp/base.html"%}
+{%block title%}Sign up{%endblock%}
+{%block content%}
+<form method="post">
+    {%csrf_token%}
+    <div class="formColumn">
+        <div>First name:</div>
+        {{form.first_name}}
+        <div>Last name:</div>
+        {{form.last_name}}
+        <div>Phone number:</div>
+        {{form.phone_number}}
+        <div>Email:</div>
+        {{form.email}}
+        <div>Password:</div>
+        {{form.password}}
+        <div>Confirm password:</div>
+        {{form.password_confirmation}}
+        <div>
+            {%for error in errors%}
+                {{error}}
+            {%endfor%}
+        </div>
+        <button class="button" type="submit">confirm</button>
+        <p>Already have an account? Log in
+            <a class="markedLink" href="/login">here</a>
+        </p>
+    </div>
+</form>
+{%endblock%}

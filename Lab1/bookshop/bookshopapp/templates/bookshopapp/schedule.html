@@ -1,0 +1,33 @@
+{%extends "bookshopapp/base.html"%}
+{%block title%}Excursions schedule{%endblock%}
+{%block content%}
+<div class="pageFiltered">
+    <div>
+        <div class="pageTitle">Excursions</div>
+        {%for i in excursions%}
+            <div class="excursionBlock">
+                <div>Guide: {{i.guide}}</div>
+                <div>Exhibition: <a class="markedLink" href="{% url 'exhibition' exhibition_id=i.exhibition.id%}">{{i.exhibition}}</a></div>
+                <div>Date: {{i.date.date}}</div>
+                <div>Time: {{i.date.time}}</div>
+            </div>
+        {%endfor%}
+    </div>
+    <form class = "formColumn" method="get">
+        <div class="formTitle">Date:</div>
+        <div>from:</div>
+        <input name = "dfrom" type="date">
+        <div>to:</div>
+        <input name = "dto"type="date">
+        <div class="formTitle">Exhibitions:</div>
+        {%for i in exhibitions%}
+            <div class="checkboxBlock">
+                <input type="checkbox" name="{{i}}">
+                <div>{{i}}</div>
+            </div>
+        {%endfor%}
+        <button type="submit">Filter</button>
+        <a class = "markedLink" href = "/schedule">Reset</a>
+    </form>
+</div>
+{%endblock%}

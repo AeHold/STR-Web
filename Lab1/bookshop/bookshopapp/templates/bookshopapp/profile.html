@@ -1,0 +1,36 @@
+{%extends "bookshopapp/base.html"%}
+{%block title%}Profile{%endblock%}
+{%block content%}
+<div class="pageTitle">Profile of {{profile.user.username}}</div>
+<img class = "profilePhoto" src="{{cat.url}}">
+<div>
+    <div>Email: {{profile.user.email}}</div>
+    <div>Phone number: {{profile.phone_number}}</div>
+    <div>Post: {{profile.post}}</div>
+</div>
+<div class="sectionTitle">Exponates</div>
+<div>
+    {%for i in exponates%}
+        <div class="exponateBlock">
+            <img class="photo" src="{{i.photo.url}}">
+            <div class="information">
+                <div>{{i.name}}</div>
+                <div>Author: {{i.author}}</div>
+                <div>Description: {{i.description}}</div>
+                <div>Date: {{i.receipt_date}}</div>
+                <div>Hall: {{i.hall}}</div>
+            </div>
+        </div>
+    {%endfor%}
+</div>
+<div class="sectionTitle">Excursions</div>
+<div>
+    {%for i in excursions%}
+        <div class="excursionBlock">
+            <div>Exhibition: {{i.exhibition}}</div>
+            <div>Date: {{i.date.date}}</div>
+            <div>Time: {{i.date.time}}</div>
+        </div>
+    {%endfor%}
+</div>
+{%endblock%}

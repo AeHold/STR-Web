@@ -1,0 +1,20 @@
+{%extends "bookshopapp/base.html"%}
+{%block title%}Log in{%endblock%}
+{%block content%}
+<form method="post">
+    {%csrf_token%}
+    <div class="formColumn">
+        <div>Email:</div>
+        {{form.email}}
+        <div>Password:</div>
+        {{form.password}}
+        <div>
+            {{error}}
+        </div>
+        <button class="button" type="submit">login</button>
+        <p>Don't have an account? Create one
+            <a class="markedLink" href="/sign-up">here</a>
+        </p>
+    </div>
+</form>
+{%endblock%}
