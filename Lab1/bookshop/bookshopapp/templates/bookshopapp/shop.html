@@ -1,15 +1,14 @@
 {%extends "bookshopapp/base.html"%}
-{%block title%}Excursions schedule{%endblock%}
+{%block title%}Shop{%endblock%}
 {%block content%}
 <div class="pageFiltered">
     <div>
-        <div class="pageTitle">Excursions</div>
-        {%for i in excursions%}
-            <div class="excursionBlock">
+        <h1>Shop</h1>
+        {%for i in product%}
+            <div class="productBlock">
                 <div>Guide: {{i.guide}}</div>
                 <div>Exhibition: <a class="markedLink" href="{% url 'exhibition' exhibition_id=i.exhibition.id%}">{{i.exhibition}}</a></div>
                 <div>Date: {{i.date.date}}</div>
-                <div>Time: {{i.date.time}}</div>
             </div>
         {%endfor%}
     </div>

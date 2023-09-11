@@ -37,10 +37,6 @@
         position: relative;
         font-size: 15pt;
     }
-    .sectionTitle{
-        font-size: 18pt;
-        font-weight: bold;
-    }
     .exponateBlock{
         display: flex;
         flex-direction: row;
@@ -68,11 +64,15 @@
     .excursionBlock{
         margin: 10px 0px;
     }
-    .pageTitle{
+    h1{
         font-size: 25pt;
         font-weight: bolder;
         margin: 50px 0px;
         display: flex;
+    }
+    h2{
+        font-size: 18pt;
+        font-weight: bold;
     }
     .link{
         text-decoration: none;
@@ -117,16 +117,17 @@
 </style>
 <body>
     <div class = "header">
-        <a class = "link" href="/">Home</a>
-        <a class = "link" href="/exhibitions">Exhibitions</a>
-        <a class = "link" href="/schedule">Excursions schedule</a>
-        {%if user.is_anonymous%}
-        <a class = "link" href="/login">Log in</a>
-        <a class = "link" href="/sign-up">Sign up</a>
-        {%else%}
-        <a class = "link" href="/profile">Profile</a>
-        <a class = "link" href="/logout">Logout</a>
-        {%endif%}
+        <nav>
+            <a class = "link" href="/">Home</a>
+            <a class = "link" href="/shop">Books</a>
+            {%if user.is_anonymous%}
+            <a class = "link" href="/login">Log in</a>
+            <a class = "link" href="/sign-up">Sign up</a>
+            {%else%}
+            <a class = "link" href="/profile">Profile</a>
+            <a class = "link" href="/logout">Logout</a>
+            {%endif%}
+        </nav>
     </div>
     <div class="content">
         <div class="container">

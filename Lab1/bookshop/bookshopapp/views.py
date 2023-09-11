@@ -8,6 +8,35 @@ from django.contrib.auth.models import User
 import requests
 import json
 
+class AboutUsView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshop/about.html',{})
+
+class FAQView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshop/faq.html',{})
+
+class ContactsView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshop/contacts.html',{})
+
+class NewsView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshop/news.html',{})
+
+class ReviewView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshop/review.html',{})
+
+class PrivacyPolicyView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshop/privacypolicy.html',{})
+
+class ShopView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshop/privacypolicy.html',{})
+
+
 class MainView(View):
     def get(self, req, *args, **kwargs):
         if(req.user.is_anonymous):
@@ -15,8 +44,7 @@ class MainView(View):
         else:
             cat = requests.get("https://cataas.com/cat/says/You must work,{0} %0AWhy do you proCATstinating%3F".format(req.user.username))
         cat_fact = json.loads(requests.get("https://catfact.ninja/fact").content.decode())['fact']
-        excursions = models.Excursion.objects.filter(date__date=datetime.datetime.today().date())
-        return render(req, 'bookshopapp/main.html', {'fact':cat_fact, "cat":cat, "excursions":excursions})
+        return render(req, 'bookshopapp/main.html', {'fact':cat_fact, "cat":cat})
 
 class LoginView(View):
     form_class = LoginForm
@@ -74,37 +102,13 @@ class SignUpView(View):
         form = self.form_class()
         return render(req, 'bookshopapp/sign-up.html', {"form":form})
 
-class ExhibitionsView(View):
-    def get(self, req, *args, **kwargs):
-        exhibitions = models.Exhibition.objects.all()
-        return render(req, 'bookshopapp/exhibitions.html', {"exhibitions":exhibitions})
-
 class ProfileView(View):
     def get(self, req, *args, **kwargs):
         user = req.user
         profile = models.Profile.objects.get(user=user)
-        exponates = profile.exponates.all()
-        cat = requests.get("https://cataas.com/cat/says/Hi,{0}".format(user.username))
-        excursions = models.Excursion.objects.filter(guide=profile, date__gte=datetime.datetime.today())
-        return render(req, 'bookshopapp/profile.html', {"profile":profile, "exponates":exponates, "excursions":excursions,"cat":cat})
-
-class ScheduleView(View):
-    def get(self, req, *args, **kwargs):
-        exhibitions = models.Exhibition.objects.all()
-        excursions = models.Excursion.objects.filter(date__gte=req.GET.get("dfrom") if req.GET.get("dfrom",'')!=''
-                else datetime.datetime.today(), date__lte=req.GET.get("dto") 
-                        if req.GET.get("dto",'')!='' else datetime.datetime.strptime(req.GET.get("dfrom"),'%Y-%m-%d').date() + datetime.timedelta(days=7)
-                                if req.GET.get("dfrom",'')!='' else datetime.datetime.today() + datetime.timedelta(days=7))
-        if len(req.GET) > 2:
-            exh_filter = []
-            for i in exhibitions:
-                if req.GET.get(str(i)):
-                    exh_filter.append(i)
-
-            excursions = excursions.filter(exhibition__in = exh_filter).distinct()
-        return render(req, 'bookshopapp/schedule.html', {"excursions":excursions, "exhibitions":exhibitions})
-
-class ExhibitionView(View):
-    def get(self, req, *args, exhibition_id, **kwargs):
-        exhibition = models.Exhibition.objects.get(id=exhibition_id)
-        return render(req, 'bookshopapp/exhibition.html', {"exhibition":exhibition})
+        if(profile.post!=None):
+            order = models.Order.objects.filter(is_send=False)
+            return render(req, 'bookshopapp/stuffprofile.html', {"profile":profile, "orders":order})
+        else:
+            order = models.Order.objects.filter(is_recieved=False,user=user)
+            return render(req, 'bookshopapp/profile.html', {"profile":profile, "orders":order})

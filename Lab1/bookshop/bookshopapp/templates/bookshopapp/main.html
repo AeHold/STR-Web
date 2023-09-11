@@ -2,21 +2,9 @@
 {%block title%}Home{%endblock%}
 {%block content%}
 <img class = "profilePhoto" src="{{cat.url}}">
-<div class="information">Random facts about cats, because cats are aristocrats:{{fact}}</div>
+<span class="information">Random facts about cats, because cats are aristocrats:{{fact}}</span>
 
-<div class="pageTitle">Today's excursions</div>
-        {%if excursions.0%}
-            {%for i in excursions%}
-                <div class="excursionBlock">
-                    <div>Guide: {{i.guide}}</div>
-                    <div>Exhibition: <a class="markedLink" href="{% url 'exhibition' exhibition_id=i.id%}">{{i.exhibition}}</a></div>
-                    <div>Date: {{i.date.date}}</div>
-                    <div>Time: {{i.date.time}}</div>
-                </div>
-            {%endfor%}
-        {%else%}
-            No excursions today
-        {%endif%}
+<h1>Welcom to our shop</h1>
         
 
 {%endblock%}

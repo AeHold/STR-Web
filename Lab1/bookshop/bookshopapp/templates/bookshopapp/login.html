@@ -4,13 +4,11 @@
 <form method="post">
     {%csrf_token%}
     <div class="formColumn">
-        <div>Email:</div>
+        Email:<br>
         {{form.email}}
-        <div>Password:</div>
+        Password:<br>
         {{form.password}}
-        <div>
-            {{error}}
-        </div>
+        {{error}}<br>
         <button class="button" type="submit">login</button>
         <p>Don't have an account? Create one
             <a class="markedLink" href="/sign-up">here</a>

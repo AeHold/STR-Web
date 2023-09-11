@@ -4,17 +4,17 @@
 <form method="post">
     {%csrf_token%}
     <div class="formColumn">
-        <div>First name:</div>
+        First name:<br>
         {{form.first_name}}
-        <div>Last name:</div>
+        Last name:<br>
         {{form.last_name}}
-        <div>Phone number:</div>
+        Phone number:<br>
         {{form.phone_number}}
-        <div>Email:</div>
+        Email:<br>
         {{form.email}}
-        <div>Password:</div>
+        Password:<br>
         {{form.password}}
-        <div>Confirm password:</div>
+        Confirm password:<br>
         {{form.password_confirmation}}
         <div>
             {%for error in errors%}

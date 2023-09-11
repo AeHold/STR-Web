@@ -5,19 +5,18 @@
 <img class = "profilePhoto" src="{{cat.url}}">
 Email: {{profile.user.email}}
 Phone number: {{profile.phone_number}}
-<h2>Your orders</h2>
+Post: {{profile.post}}
+<h2>Orders</h2>
 <section>
-    {%for i in order%}
+    {%for i in exponates%}
         <div class="exponateBlock">
-            <img class="cover" src="{{i.cover.url}}">
+            <img class="photo" src="{{i.photo.url}}">
             <ul class="information">
                 <li>{{i.name}}</li>
                 <li>Author: {{i.author}}</li>
                 <li>Description: {{i.description}}</li>
-                <li>Type: {{i.type}}</li>
-                <li>Genre: {{i.genre}}</li>
-                <li>Is send: {{i.type}}</li>
-                <li>Genre: {{i.genre}}</li>
+                <li>Date: {{i.receipt_date}}</li>
+                <li>Hall: {{i.hall}}</li>
             </ul>
         </div>
     {%endfor%}
