@@ -38,13 +38,12 @@ class Post(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE,blank=True)
+    post = models.ForeignKey(Post, null=True, blank=True, on_delete=models.CASCADE)
     phone_number = PhoneNumberField()
+    photo = models.ImageField(blank=True)
 
     def __str__(self):
         return str(self.user)
-
-
 
 class Order(models.Model):
     product = models.ForeignKey(Product, related_name="orders", on_delete=models.CASCADE)
@@ -58,6 +57,21 @@ class Order(models.Model):
     is_send = models.BooleanField(default=False)
     is_recieved = models.BooleanField(default=False)
 
+class FAQ(models.Model):
+    question = models.CharField(max_length=100)
+    answer = models.CharField(max_length=200)
+    date = models.DateField()
 
+class Article(models.Model):
+    title = models.CharField(max_length=100)
+    text = models.TextField(max_length=3000)
+    date = models.DateField()
+    author = models.ForeignKey(Profile, related_name = "articles", on_delete = models.CASCADE)
+    picture = models.ImageField(blank=True)
 
-
+class Review(models.Model):
+    product = models.ForeignKey(Product, related_name="review", on_delete=models.CASCADE)
+    text = models.TextField(max_length=3000)
+    date = models.DateField()
+    author = models.ForeignKey(Profile, related_name = "review", on_delete = models.CASCADE)
+    rate = models.IntegerField()

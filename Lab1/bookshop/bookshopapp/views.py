@@ -10,31 +10,83 @@ import json
 
 class AboutUsView(View):
     def get(self, req, *args, **kwargs):
-        return render(req,'bookshop/about.html',{})
+        return render(req,'bookshopapp/about.html',{})
 
 class FAQView(View):
     def get(self, req, *args, **kwargs):
-        return render(req,'bookshop/faq.html',{})
+        faq = reversed(models.FAQ.objects.all().order_by("date"))
+        return render(req,'bookshopapp/faq.html',{"faq":faq})
+
+class VacancyView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshopapp/vacancy.html',{})
+
+class PromosView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshopapp/promos.html',{})
 
 class ContactsView(View):
     def get(self, req, *args, **kwargs):
-        return render(req,'bookshop/contacts.html',{})
+        contacts = models.Profile.objects.exclude(post=None)
+        return render(req,'bookshopapp/contacts.html',{"contacts":contacts})
 
 class NewsView(View):
     def get(self, req, *args, **kwargs):
-        return render(req,'bookshop/news.html',{})
+        article = reversed(models.Article.objects.all().order_by("date"))
+        return render(req,'bookshopapp/news.html',{"news":article})
 
-class ReviewView(View):
+class ArticleView(View):
     def get(self, req, *args, **kwargs):
-        return render(req,'bookshop/review.html',{})
+        article = models.Article.objects.get(id=kwargs['article_id'])
+        return render(req,'bookshopapp/article.html',{"article":article})
 
 class PrivacyPolicyView(View):
     def get(self, req, *args, **kwargs):
-        return render(req,'bookshop/privacypolicy.html',{})
+        return render(req,'bookshopapp/privacypolicy.html',{})
 
 class ShopView(View):
     def get(self, req, *args, **kwargs):
-        return render(req,'bookshop/privacypolicy.html',{})
+        context = {}
+        products = models.Product.objects.all()
+
+        types = models.Type.objects.all()
+        if(len(req.GET)>2):
+            type_filter=[]
+            for type in types:
+                if(req.GET.get('type'+str(type))):
+                    type_filter.append(type)
+
+            if(len(type_filter)!=0):
+                print(type_filter)
+                print(products)
+                products = products.filter(type__in = type_filter).distinct()
+                print(products)
+
+        genres = models.Genre.objects.all()
+        if(len(req.GET)>2):
+            genre_filter=[]
+            for genre in genres:
+                if(req.GET.get('genre'+str(genre))):
+                    genre_filter.append(genre)
+            
+            if(len(genre_filter)!=0):
+                products = products.filter(genre__in = genre_filter).distinct()
+
+
+        if(req.GET.get('pfrom','')!=''):
+            context['pfrom']=req.GET.get('pfrom')
+            products=products.filter(price__gte=context['pfrom'])
+
+        
+        if(req.GET.get('pto','')!=''):
+            context['pto']=req.GET.get('pto')
+            products=products.filter(price__lte=context['pto'])
+        
+        context['types']=types
+        context['genres']=genres
+        context['products']=products
+
+        return render(req,'bookshopapp/shop.html',context)
 
 
 class MainView(View):
@@ -44,7 +96,8 @@ class MainView(View):
         else:
             cat = requests.get("https://cataas.com/cat/says/You must work,{0} %0AWhy do you proCATstinating%3F".format(req.user.username))
         cat_fact = json.loads(requests.get("https://catfact.ninja/fact").content.decode())['fact']
-        return render(req, 'bookshopapp/main.html', {'fact':cat_fact, "cat":cat})
+        article = models.Article.objects.all().order_by("date")[0:3]
+        return render(req, 'bookshopapp/main.html', {'fact':cat_fact, "cat":cat, "news":article})
 
 class LoginView(View):
     form_class = LoginForm
@@ -87,7 +140,7 @@ class SignUpView(View):
             last_name = form.cleaned_data["last_name"]
             password = form.cleaned_data["password"]
             user = User.objects.create_user(email=email, password=password, username=first_name + " " + last_name)
-            models.Profile.objects.create(phone_number=phone_number, user=user, post = models.Post.objects.get(name='intern'))
+            models.Profile.objects.create(phone_number=phone_number, user=user, post = None)
             login(req, user)
             
             return redirect('/')
@@ -107,8 +160,42 @@ class ProfileView(View):
         user = req.user
         profile = models.Profile.objects.get(user=user)
         if(profile.post!=None):
-            order = models.Order.objects.filter(is_send=False)
-            return render(req, 'bookshopapp/stuffprofile.html', {"profile":profile, "orders":order})
+            orders = models.Order.objects.filter(is_send=False)
+            print(orders)
+            return render(req, 'bookshopapp/stuffprofile.html', {"profile":profile, "orders":orders})
         else:
-            order = models.Order.objects.filter(is_recieved=False,user=user)
-            return render(req, 'bookshopapp/profile.html', {"profile":profile, "orders":order})
+            orders = models.Order.objects.filter(is_recieved=False,client=profile)
+            return render(req, 'bookshopapp/profile.html', {"profile":profile, "orders":orders})
+
+class ProductView(View):
+    def post(self,req,*args,**kwargs):
+        models.Review.objects.create(product =models.Product.objects.get(id=kwargs['product_id'])
+                             ,text = req.POST.get('text')
+                             ,date = datetime.date.today()
+                             ,author = models.Profile.objects.get(user=req.user)
+                             ,rate = req.POST.get('rating'))
+        return redirect('/product/{0}'.format(kwargs['product_id']))
+
+    def get(self, req, *args, **kwargs):
+        product = models.Product.objects.get(id=kwargs['product_id'])
+        reviews = models.Review.objects.filter(product =models.Product.objects.get(id=kwargs['product_id']))
+        return render(req,'bookshopapp/product.html',{'product':product,'reviews':reviews})
+
+class OrderConfirmView(View):
+
+    def post(self, req, *args, **kwargs):
+        print(models.Order.objects.create(client=models.Profile.objects.get(user=req.user),
+                                            product= models.Product.objects.get(id=req.POST.get('product')),
+                                            city=req.POST.get('city'),
+                                            street=req.POST.get('street'),
+                                            house=req.POST.get('house'),
+                                            appartments=req.POST.get('appartments'),
+                                            order_date=datetime.date.today(),
+                                            deliver_date=datetime.date.today(),
+                                            is_recieved=False,
+                                            is_send=False))
+        return redirect('/profile')
+
+    def get(self,req,*args,**kwargs):
+        product = models.Product.objects.get(id=kwargs['product_id'])
+        return render(req,'bookshopapp/order.html',{'product':product})

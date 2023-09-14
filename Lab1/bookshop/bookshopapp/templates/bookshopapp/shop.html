@@ -4,29 +4,46 @@
 <div class="pageFiltered">
     <div>
         <h1>Shop</h1>
-        {%for i in product%}
+        {%for i in products%}
+        <a href="{%url 'product' product_id=i.id%}" style="text-decoration: none;color:black">
             <div class="productBlock">
-                <div>Guide: {{i.guide}}</div>
-                <div>Exhibition: <a class="markedLink" href="{% url 'exhibition' exhibition_id=i.exhibition.id%}">{{i.exhibition}}</a></div>
-                <div>Date: {{i.date.date}}</div>
+                <img src="{{i.cover.url}}" class="productPhoto">
+                <ul>
+                    <li>Title:{{i.name}}</li>
+                    <li>Author:{{i.author}}</li>
+                    <li>Type and genres:{{i.type}}/{%for j in i.genre.all%}{{j}} {%endfor%}</li>
+                    <li>Price:{{i.price}} dublons</li>
+                </ul>
             </div>
+        </a>
         {%endfor%}
     </div>
     <form class = "formColumn" method="get">
-        <div class="formTitle">Date:</div>
-        <div>from:</div>
-        <input name = "dfrom" type="date">
-        <div>to:</div>
-        <input name = "dto"type="date">
-        <div class="formTitle">Exhibitions:</div>
-        {%for i in exhibitions%}
+        <span class="formTitle">Price:</dispanv>
+        from:
+        <input name = "pfrom" type="number" step="0.01">
+        to:
+        <input name = "pto" type="number" step="0.01">
+        <span class="formTitle">Type:</span>
+        <input name="type_filtered" type="checkbox" hidden>
+        {%for i in types%}
             <div class="checkboxBlock">
-                <input type="checkbox" name="{{i}}">
+                <input type="checkbox" name="type{{i}}">
                 <div>{{i}}</div>
             </div>
         {%endfor%}
+        <span class="formTitle">Genre:</span>
+        <input name="genre_filtered" type="checkbox" hidden>
+        {%for i in genres%}
+            <div class="checkboxBlock">
+                <input type="checkbox" name="genre{{i}}">
+                <div>{{i}}</div>
+            </div>
+        {%endfor%}
+
+
         <button type="submit">Filter</button>
-        <a class = "markedLink" href = "/schedule">Reset</a>
+        <a class = "markedLink" href = "/shop">Reset</a>
     </form>
 </div>
 {%endblock%}

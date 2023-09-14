@@ -1,0 +1,26 @@
+{% extends 'bookshopapp/base.html' %}
+{% block title %}promos{% endblock %}
+{% block content %}
+    <table style="width: 600px; font-size: 20pt; display: flex; text-align: center; background-color: azure;">
+        <tr>
+           <th>Name</th>
+           <th>Information</th>
+           <th>Promocode rules</th>
+        </tr>
+        <tr>
+            <td>BRITISHBOOKS</td>
+            <td>Gives 30% discount to any purchase</td>
+            <td>Works only when you order 3 or more books</td>
+            </tr>
+        <tr>
+            <td>WEAREOPEN</td>
+            <td>You will receive a souvenir from our shop with your next order</td>
+            <td>Works only one time</td>
+        </tr>
+        <tr>
+            <td>QWERTY123</td>
+            <td>Gives you 20% discount to your next order</td>
+            <td>Works always(but only one time)</td>
+        </tr>
+    </table>
+{% endblock %}

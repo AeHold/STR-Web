@@ -1,10 +1,19 @@
 {%extends "bookshopapp/base.html"%}
 {%block title%}Home{%endblock%}
 {%block content%}
+<marquee>New books are expected to arrive soon, check the website for the availability of the desired product:)</marquee>
+<h1>Welcom to our shop</h1>
 <img class = "profilePhoto" src="{{cat.url}}">
 <span class="information">Random facts about cats, because cats are aristocrats:{{fact}}</span>
-
-<h1>Welcom to our shop</h1>
-        
-
+<h2>Last news</h2>
+{% for i in news %}
+    <a href = "{%url 'article' article_id=i.id%}"><div style="display: flex; flex-direction: row; margin-top: 20px;">
+        <img style="width: 150px;" src="{{i.picture.url}}">
+        <div style="width: 800px;">
+            {{i.date}}
+            <h2>{{i.title}}</h2>
+        </div>
+    </div>
+</a>
+{%endfor%}
 {%endblock%}

@@ -1,0 +1,17 @@
+{% extends 'bookshopapp/base.html' %}
+{% block title %}faq{% endblock %}
+{% block content %}
+<div>
+    <h1>Frequently Asked Questions</h1>
+    <div style="display:flex;flex-direction: column; margin-top: 40px;">
+        {%for q in faq%}
+        <details style="margin: 20px 0px;">
+            <summary>
+                {{q.date}} {{q.question}}
+            </summary>
+            <div>{{q.answer|safe}}</div>
+        </details>
+        {%endfor%}
+    </div>
+</div>
+{% endblock %}

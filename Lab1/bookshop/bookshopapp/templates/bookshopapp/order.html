@@ -1,0 +1,13 @@
+{%extends "bookshopapp/base.html"%}
+{%block title%}Order confirm{%endblock%}
+{%block content%}
+<form method="post">
+    {%csrf_token%}
+    <input type="number" value="{{product.id}}" name="product" hidden>
+    <input type="text" maxlength="30" name="city">
+    <input type="text" maxlength="30" name="street">
+    <input type="text" maxlength="30" name="house">
+    <input type="text" maxlength="30" name="appartments" required="false">
+    <button type="submit">Confirm</button>
+</form>
+{%endblock%}

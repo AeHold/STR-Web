@@ -1,0 +1,14 @@
+{% extends 'bookshopapp/base.html' %}
+{% block title %}article{% endblock %}
+{% block content %}
+    {% for i in news %}
+        <a href = "{%url 'article' article_id=i.id%}"><div style="display: flex; flex-direction: row; margin-top: 20px;">
+            <img style="width: 150px;" src="{{i.picture.url}}">
+            <div style="width: 800px;">
+                {{i.date}}
+                <h2>{{i.title}}</h2>
+            </div>
+        </div>
+        </a>
+    {%endfor%}
+{% endblock %}

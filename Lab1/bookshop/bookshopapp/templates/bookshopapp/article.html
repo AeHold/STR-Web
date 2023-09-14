@@ -1,0 +1,10 @@
+{% extends 'bookshopapp/base.html' %}
+{% block title %}contacts{% endblock %}
+{% block content %}
+    <article>
+        <h1>{{article.title}}</h1>
+        {{article.date}}
+        <img class = "profilePhoto" src="{{article.picture.url}}">
+        {{article.text}}
+    </article>
+{% endblock %}

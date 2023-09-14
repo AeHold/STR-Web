@@ -1,0 +1,14 @@
+{% extends 'bookshopapp/base.html' %}
+{% block title %}contacts{% endblock %}
+{% block content %}
+    {% for i in contacts %}
+        <figure>
+            <img class = "profilePhoto" src="{{i.photo.url}}">
+            <figcaption>{{profile.user.username}}
+                Email: {{i.user.email}}
+                Phone number: {{i.phone_number}}
+                Post: {{i.post}}
+            </figcaption>
+        </figure>
+    {%endfor%}
+{% endblock %}

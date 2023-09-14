@@ -11,17 +11,57 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 10px;
+        padding: 20px;
+        height: 80px;
         background-color: rgb(236, 133, 92);
+    }
+    .headerBlock{
+        width:200px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
     }
     .profilePhoto{
         height: 400px;
+        width: 600px
+        
+    }
+    .productDescription{
+        width: 720px;
+    }
+    .productPhoto{
+        height: 200px;
+        width: 150px;
+        border: solid 2px;
+        border-color: brown;
+    }
+    .productBlock{
+        
+        font-size: 10pt;
+        margin:20px 0px;
+        display: flex;
+        flex-direction: row;
     }
     .pageFiltered{
         display: flex;
         flex-direction: row;  
         justify-content: space-between;
         width: 700px; 
+    }
+    .certificate{
+        width: 800px;
+        height: 1130px;
+        border: 3px solid;
+        background-color: rgb(255, 216, 216);
+        color: black;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .orderBlock{
+        margin: 15px 0px;
     }
     body{
         padding: 0;
@@ -93,17 +133,36 @@
     .content{
         display: flex;
         justify-content: center;
+        align-items: center;
+    }
+    .container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 1280px;
+        min-height: 720px;
+        background-color: #ffffff;
+    }
+    table{
+        border: solid black;
+    }
+    td{
+        border: solid black;
+    }
+    tr{
+        border: solid black;
     }
     #id_phone_number,#id_password,#id_first_name,#id_last_name,#id_email,#id_password_confirmation{
         border-radius: 10px;
         height: 30px;
         background-color: rgb(255, 237, 224);
     }
-    .button{
+    button{
         width:fit-content;
         padding: 0px 10px;
         margin: 10px 0px;
-        font-size: 13 pt;
+        font-size: 20pt;
         background-color: rgb(255, 246, 217);
     }
     .checkboxBlock{
@@ -114,12 +173,68 @@
         margin:10px 0px;
         font-weight: bold;
     }
+    .footerContent{
+        width:1280px;
+        margin:30px 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .footerBlock{
+        width:400px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .footerLogo{
+        margin:0px 20px;
+    }
+    .footerLink{
+        color:black;
+        margin:40px 10px;
+        text-decoration: underline;
+    }
+    .footer{
+        width: 100%;
+        height: 100px;
+        background-color:rgb(236, 133, 92);
+        display: flex;
+        justify-content: center;
+    }
+    .video{
+        flex-direction: row;
+        align-items: center;
+        display: flex;
+        justify-self: center;
+    }
+    article{
+        display: flex;
+        flex-direction: column;
+        font-size: 20pt;
+    }
 </style>
 <body>
-    <div class = "header">
-        <nav>
+    <nav class="header">
+        <div class="headerBlock">
             <a class = "link" href="/">Home</a>
             <a class = "link" href="/shop">Books</a>
+            <a class = "link" href="/news">News</a>
+        </div>
+        <div style="flex-direction: column; justify-content: center;"  class="headerBlock">
+            <span style="margin: 2px; font-size: 10pt;">Our partners</span>
+            <div style = "width: 700px" class = "headerBlock">
+                <a href = "https://mangalib.me/"><img class="footerLogo" src = '/image/mangalib.png' height="75px"></a>
+                <i>
+                    Mangalib - the best site to read manga
+                </i>
+                <a href = "https://www.comicskrama.by/"><img class="footerLogo" src = '/image/comicsKrama.png' height="75px"></a>
+                <i>
+                    ComicsKrama - the greatest comics shop in Belarus
+                </i>
+            </div>
+        </div>
+        <div class="headerBlock">
             {%if user.is_anonymous%}
             <a class = "link" href="/login">Log in</a>
             <a class = "link" href="/sign-up">Sign up</a>
@@ -127,12 +242,32 @@
             <a class = "link" href="/profile">Profile</a>
             <a class = "link" href="/logout">Logout</a>
             {%endif%}
-        </nav>
-    </div>
+        </div>
+    </nav>
     <div class="content">
         <div class="container">
         {%block content%}
         {% endblock%}
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footerContent">
+                <div class = "footerBlock">
+                    <a href = '/about' class="footerLink">About us</a>
+                    <a href = '/vacancy' class="footerLink">Vacancy</a>
+                    <a href = '/contacts' class="footerLink">Contacts</a>
+                </div>
+                <div class = "footerBlock">
+                    <img class="footerLogo" src = '/image/british_book-logo.png' height="75px">
+                    <i>
+                        Books are the treasure, that rescue your life
+                    </i>
+                </div>
+                <div class = "footerBlock">            
+                    <a href = '/faq' class="footerLink">FAQ</a>
+                    <a href = '/promos' class="footerLink">Promocodes</a>
+                    <a href = '/privacypolicy' class="footerLink">Privacy policy</a>
+                </div>
         </div>
     </div>
 </body>

@@ -2,22 +2,22 @@
 {%block title%}Profile{%endblock%}
 {%block content%}
 <h1>Profile of {{profile.user.username}}</h1>
-<img class = "profilePhoto" src="{{cat.url}}">
+<img class = "profilePhoto" src="{{profile.photo.url}}">
 Email: {{profile.user.email}}
 Phone number: {{profile.phone_number}}
 <h2>Your orders</h2>
 <section>
-    {%for i in order%}
+    {%for i in orders%}
         <div class="exponateBlock">
             <img class="cover" src="{{i.cover.url}}">
             <ul class="information">
-                <li>{{i.name}}</li>
-                <li>Author: {{i.author}}</li>
-                <li>Description: {{i.description}}</li>
-                <li>Type: {{i.type}}</li>
-                <li>Genre: {{i.genre}}</li>
-                <li>Is send: {{i.type}}</li>
-                <li>Genre: {{i.genre}}</li>
+                <li>Item: {{i.product.name}}</li>
+                <li>Date: {{i.order_date}}</li>
+                <li>Delivery_date: {{i.deliver_date}}</li>
+                <li>Type: {{i.product.type}}</li>
+                <li>Is send: {{i.is_send}}</li>
+                <li>Is recieved: {{i.is_recieved}}</li>
+                <li>Adress: {{i.city}},{{i.street}},{{i.house}},{{i.appartments}}</li>
             </ul>
         </div>
     {%endfor%}

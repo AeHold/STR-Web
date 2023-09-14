@@ -1,0 +1,53 @@
+{%extends "bookshopapp/base.html"%}
+{%block title%}Shop{%endblock%}
+{%block content%}
+<h1>{{product.name}}</h1>
+    <div class="productBlock">
+        <img src="{{product.cover.url}}" class="productPhoto" style="width:300px;height: 400px;">
+        <ul style="font-size: 20pt;">
+            <li>Author:{{product.author}}</li>
+            <li>Type:{{product.type}}</li>
+            <li>Genre:{%for j in product.genre.all%}{{j}} {%endfor%}</li>
+        </ul>
+    </div>
+    <p class="productDescription">
+        {{product.description}}
+    </p>
+    <a href="{%url 'orderConfirm' product_id=product.id%}">
+        <button>Buy for {{product.price}} dublons</button>
+    </a>
+    {%if user.is_authenticated %}
+    <form method = "post" class = "reviewBlock" style="width: 950px; margin-bottom: 30px;padding: 10px; background-color:#b87575">
+        {%csrf_token%}
+        <h3>
+        Your review
+        </h3>
+        <span style="margin: 0px; flex-direction: row; display: flex; color:#f5f5f5">Rating</span>
+        <input type="range" max="10" min="1" id="rating" name="rating" title="Rating"/>
+        <br>
+        <span style="margin:2px; font-size: 13pt;color:#f5f5f5;">
+        1 2 3 4 5 6 7 8 9 10
+        </span>
+        <br>
+        <br>
+        <input name = "text" type="text" draggable="false"style="width: 940px; height: 100px;">
+        <button type="submit">Submit</button>
+    </form>
+{%else%}
+<form method = "post" class = "reviewBlock" style="width: 950px; margin-bottom: 30px; background-color:#2a62ab">
+    <h3 style="margin: 0px; flex-direction: row; display: flex; color:#f5f5f5">
+        To make review you have to login or create new profile. You can do it <a style="margin:0px 10px;color:#f5f5f5"href="/login">here</a>
+    </h3>
+</form>
+{%endif%}
+{%for review in reviews%}
+    <div style="width: 950px; margin-bottom: 30px;">
+        <span cstyle="left: 910px">{{review.rate}} ★</span>
+        <h3 style="margin: 0px; flex-direction: row; display: flex;">
+            {{review.author}}:{{review.product}}</h3>
+        </h3>
+        <date>{{review.date}}</date>
+        <textarea readonly draggable="false" style="width: 940px; height: 100px;">{{review.text}}</textarea> 
+    </div>
+{%endfor%}
+{%endblock%}
