@@ -1,10 +1,10 @@
 {% extends 'bookshopapp/base.html' %}
 {% block title %}contacts{% endblock %}
 {% block content %}
-    <article>
+    <article itemscope = "article" itemtype="https://schema.org/Article">
         <h1>{{article.title}}</h1>
         {{article.date}}
         <img class = "profilePhoto" src="{{article.picture.url}}">
-        {{article.text}}
+        <p class = "articleColumns" itemprop="articleBody">{{article.text}}</p>
     </article>
 {% endblock %}

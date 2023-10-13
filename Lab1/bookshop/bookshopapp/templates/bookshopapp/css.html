@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{%static 'bbl.ico'%}">
+    <link rel ="stylesheet" type="text/css" href="{%static 'styles.css'%}">
+    <title>{% block title%}Title{% endblock%}</title>
+</head>
+<body>
+    <header>
+        <nav style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+            <div class="headerBlock">
+                <a class = "link" href="/">Home</a>
+                <a class = "link" href="/shop">Books</a>
+                <a class = "link" href="/news">News</a>
+            </div>
+            <div style="flex-direction: column; justify-content: center;"  class="headerBlock">
+                <span style="margin: 2px; font-size: 10pt;">Our partners</span>
+                <div style = "width: 700px" class = "headerBlock">
+                    <a href = "https://mangalib.me/"><img class="footerLogo" src = '/image/mangalib.png' height="75px"></a>
+                    <i>
+                        <dfn>Mangalib</dfn> - the best site to read manga
+                    </i>
+                    <a href = "https://www.comicskrama.by/"><img class="footerLogo" src = '/image/comicsKrama.png' height="75px"></a>
+                    <i>
+                        <dfn>ComicsKrama</dfn> - the greatest comics shop in Belarus
+                    </i>
+                </div>
+            </div>
+            <div class="headerBlock">
+                {%if user.is_anonymous%}
+                <a class = "link" href="/login">Log in</a>
+                <a class = "link" href="/sign-up">Sign up</a>
+                {%else%}
+                <a class = "link" href="/profile">Profile</a>
+                <a class = "link" href="/logout">Logout</a>
+                {%endif%}
+            </div>
+        </nav>
+    </header>
+    <div class="content">
+        <div class="container">
+        {%block content%}
+        <input type="text" placeholder="input">
+        <input type="text" placeholder="required" required>
+        <input type="text" placeholder="disabled" disabled>
+        <input type="number" max="4" value="10">
+        <br><br>
+        <p>Умный человек <q lang="ru">я умный человек</q></p>
+        <br><br>
+        <img class="profilePhoto" src="/image/cat.jpg">
+        <div class="gradientBlock"> </div>
+        <br><br>  
+        <p class="cssBlock">Показатель абзаца</p>
+        <p>Абзаца показатель</p>
+        {% endblock%}
+        </div>
+    </div>
+    <footer>
+        <div class="footerContent">
+                <div class = "footerBlock">
+                    <a href = '/about' class="footerLink">About us</a>
+                    <a href = '/vacancy' class="footerLink">Vacancy</a>
+                    <a href = '/contacts' class="footerLink">Contacts</a>
+                </div>
+                <div class = "footerBlock">
+                    <img class="footerLogo" src = '/image/british_book-logo.png' height="75px">
+                    <i>
+                        Books are the treasure, that rescue your life
+                    </i>
+                </div>
+                <div class = "footerBlock">            
+                    <a href = '/faq' class="footerLink">FAQ</a>
+                    <a href = '/promos' class="footerLink">Promocodes</a>
+                    <a href = '/privacypolicy' class="footerLink">Privacy policy</a>
+                </div>
+        </div>
+    </footer>
+</body>
+</html>

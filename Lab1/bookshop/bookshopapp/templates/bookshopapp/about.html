@@ -10,6 +10,26 @@
         </div>
         <p width="700px">Our bookshop not so old, but very popular in our city. There is a big collection of different books from all over the world, so enjoy them!</p>
     </div>
+    <div>
+        <pre>
+            Books to the ceiling,
+            Books to the sky,
+            My piles of books are a mile high.
+            How I love them!
+            How I need them!
+            I’ll have a long beard by the time I read them.
+        </pre>
+    </div>
+    <code>
+        class ProfileView(View):<br>
+            def get(self, req, *args, **kwargs):<br>
+                user = req.user<br>
+                profile = models.Profile.objects.get(user=user)<br>
+                if(profile.post!=None):<br>
+                    orders = models.Order.objects.filter(is_send=False)<br>
+                    print(orders)<br>
+                    return render(req, 'bookshopapp/stuffprofile.html', {"profile":profile, "orders":orders})<br>
+                </code>
     <iframe width="1280" height="720" src="https://www.youtube.com/embed/1KvGdT4teHk?si=cBDBD5BMpDuNCDlM" title="text/html" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     <h1>
         Certification
@@ -20,7 +40,7 @@
             </h2>
             <h2 style="font-size: 28pt; width: 600px; display: flex; justify-content: center; text-align: center; margin-bottom: 250px;">about registration in "The Registry of Cultural Organisations"</h2>
             <h2 style="font-size: 20pt;">N. S. Shmidt _________________</h2>
-            <h3 style="display:flex; position: relative; left: -280px; font-size: 18pt;"><i>№2281488</i></h3>
+            <h3 style="display:flex; position: relative; left: -20px; bottom:20px;font-size: 18pt;"><i>№2281488</i></h3>
         </div>
     </h1>
 </div>

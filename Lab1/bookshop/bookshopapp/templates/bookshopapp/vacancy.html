@@ -1,23 +1,38 @@
 {% extends 'bookshopapp/base.html' %}
 {% block title %}vacancy{% endblock %}
 {% block content %}
-    <table style="width: 600px; font-size: 20pt; display: flex; text-align: center; background-color: azure;">
-        <tr>
-           <th>Name</th>
-           <th>Information</th> 
-        </tr>
-        <tr>
-            <td>SMM-manager</td>
-            <td>Salary: 1000 doublons<br>Education: Master of Economic Sciences</td>
-            </tr>
-        <tr>
-            <td>Sales-manager</td>
-            <td>Salary: 1250 doublons<br>Education: Master of Economic Sciences</td>
-        </tr>
-        <tr>
-            <td>Deliveryman</td>
-            <td>Salary: 600 doublons<br>Education: not necessary</td>
-    
-        </tr>
-    </table>
+        <div style="display: flex;flex-direction: row;">
+            <div class = "vacancyBlock">
+                <h2 style="color:#f5f5f5">SMM-manager</h2>
+                <h3 style="color:#f5f5f5">Salary: 1000 doublons</h3>
+                <h3 style="color:#f5f5f5">Education: Master of Economic Sciences</h3>
+            </div>
+            <div class = "vacancyBlock">
+                <h2 style="color:#f5f5f5">Sales-manager</h2>
+                <h3 style="color:#f5f5f5">Salary: 1250 doublons</h3>
+                <h3 style="color:#f5f5f5">Education: Master of Economic Sciences</h3>
+            </div>
+            <div class = "vacancyBlock">
+                <h2 style="color:#f5f5f5">Deliveryman</h2>
+                <h3 style="color:#f5f5f5">Salary: 600 doublons</h3>
+                <h3 style="color:#f5f5f5">Education: not necessary</h3>
+            </div>
+        </div>
+        <div style="display: flex;flex-direction: row;">
+            <div class = "vacancyBlock">
+                <h2 style="color:#f5f5f5">Copywrighter</h2>
+                <h3 style="color:#f5f5f5">Salary: 600 doublons</h3>
+                <h3 style="color:#f5f5f5">Education: not necessary</h3>
+            </div>
+            <div class = "vacancyBlock">
+                <h2 style="color:#f5f5f5">Cleaner</h2>
+                <h3 style="color:#f5f5f5">Salary: 400 doublons</h3>
+                <h3 style="color:#f5f5f5">Education: not necessary</h3>
+            </div>
+            <div class = "vacancyBlock">
+                <h2 style="color:#f5f5f5">Trainee manager</h2>
+                <h3 style="color:#f5f5f5">Salary: - doublons</h3>
+                <h3 style="color:#f5f5f5">Education: not necessary</h3>
+            </div>
+        </div>
 {% endblock %}

@@ -1,0 +1,13 @@
+{%extends "bookshopapp/base.html"%}
+{%block title%}Stat{%endblock%}
+{%block content%}
+<div>
+    <h1>Stat</h1>
+    <h2>Diagrams</h2>
+    <div style="width: 700px;">
+        {{po|safe}}
+        {{do|safe}}
+    </div>
+    <h2>Money:{{money}}</h2>
+</div>
+{%endblock%}

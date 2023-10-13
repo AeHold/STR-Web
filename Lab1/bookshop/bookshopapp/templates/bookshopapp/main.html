@@ -3,8 +3,13 @@
 {%block content%}
 <marquee>New books are expected to arrive soon, check the website for the availability of the desired product:)</marquee>
 <h1>Welcom to our shop</h1>
+<p>Ernest Hemingway - <q>There is no friend as loyal as a book</q></p>
 <img class = "profilePhoto" src="{{cat.url}}">
 <span class="information">Random facts about cats, because cats are aristocrats:{{fact}}</span>
+<select>
+    <option>Cool</option>
+    <option>Boring</option>
+</select>
 <h2>Last news</h2>
 {% for i in news %}
     <a href = "{%url 'article' article_id=i.id%}"><div style="display: flex; flex-direction: row; margin-top: 20px;">

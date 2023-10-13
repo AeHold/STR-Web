@@ -2,7 +2,7 @@
 {%block title%}Shop{%endblock%}
 {%block content%}
 <div class="pageFiltered">
-    <div>
+    <div class="grid-container">
         <h1>Shop</h1>
         {%for i in products%}
         <a href="{%url 'product' product_id=i.id%}" style="text-decoration: none;color:black">

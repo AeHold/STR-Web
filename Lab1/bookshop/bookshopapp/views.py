@@ -3,8 +3,10 @@ from django.views import View
 from bookshopapp.forms import SignUpForm, LoginForm
 import bookshopapp.models as models
 import datetime
+import plotly.express as x
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
+from django.db.models import Count
 import requests
 import json
 
@@ -24,6 +26,10 @@ class VacancyView(View):
 class PromosView(View):
     def get(self, req, *args, **kwargs):
         return render(req,'bookshopapp/promos.html',{})
+
+class CssView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshopapp/css.html',{})
 
 class ContactsView(View):
     def get(self, req, *args, **kwargs):
@@ -199,3 +205,45 @@ class OrderConfirmView(View):
     def get(self,req,*args,**kwargs):
         product = models.Product.objects.get(id=kwargs['product_id'])
         return render(req,'bookshopapp/order.html',{'product':product})
+
+class StatisticsView(View):
+
+    def get(self, req, *args, **kwargs):
+        if(not User.objects.get(id=req.user.id).is_superuser):
+            return redirect("/")
+
+        product_orders_q= models.Order.objects.values('product').annotate(pcount=Count('product')).order_by('pcount')
+        day_orders_q = models.Order.objects.values('order_date').annotate(dcount=Count('order_date')).order_by('dcount')
+        product_orders={}
+        day_orders={}
+        for i in product_orders_q:
+            if(product_orders.get(str(models.Product.objects.get(id=i['product'])),0)==0):
+                product_orders[str(models.Product.objects.get(id=i['product']))]=i['pcount']
+            else:
+                product_orders[str(models.Product.objects.get(id=i['product']))]+=i['pcount']
+                
+        print(product_orders)
+
+        money = 0
+        for i in models.Order.objects.all():
+            money = i.product.price
+
+        money = round(money,2)
+
+        po = x.bar(
+            x = product_orders.keys(),
+            y = product_orders.values(),
+            title = 'Amount of orders per product',
+            labels={'x':'Product','y':'orders amount'}
+        )
+
+        #do = x.bar(
+        #    x = day_orders.keys(),
+        #    y = day_orders.values(),
+        #    title = 'Amount of orders per day',
+        #    labels={'x':'Day','y':'orders amount'}
+        #)
+
+        return render(req,'bookshopapp/statistic.html',{'po':po.to_html(),'money':money})
+
+        

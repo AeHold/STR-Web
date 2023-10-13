@@ -2,14 +2,14 @@
 {% block title %}faq{% endblock %}
 {% block content %}
 <div>
-    <h1>Frequently Asked Questions</h1>
+    <h1 style="display: flex; margin-left: 220px;"><abbr title = "Frequently Asked Questions">FAQ</abbr></h1>
     <div style="display:flex;flex-direction: column; margin-top: 40px;">
         {%for q in faq%}
         <details style="margin: 20px 0px;">
-            <summary>
+            <summary class="questionBlock">
                 {{q.date}} {{q.question}}
             </summary>
-            <div>{{q.answer|safe}}</div>
+            <div class="answerBlock">{{q.answer|safe}}</div>
         </details>
         {%endfor%}
     </div>

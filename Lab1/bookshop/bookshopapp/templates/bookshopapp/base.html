@@ -1,256 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+{%load static%}
 <head>
+    <link href="https://fonts.cdnfonts.com/css/din-pro-cond" rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{%static 'bbl.ico'%}">
+    <link rel ="stylesheet" type="text/css" href="{%static 'styles.css'%}">
     <title>{% block title%}Title{% endblock%}</title>
 </head>
-<style>
-    .header{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 20px;
-        height: 80px;
-        background-color: rgb(236, 133, 92);
-    }
-    .headerBlock{
-        width:200px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-    }
-    .profilePhoto{
-        height: 400px;
-        width: 600px
-        
-    }
-    .productDescription{
-        width: 720px;
-    }
-    .productPhoto{
-        height: 200px;
-        width: 150px;
-        border: solid 2px;
-        border-color: brown;
-    }
-    .productBlock{
-        
-        font-size: 10pt;
-        margin:20px 0px;
-        display: flex;
-        flex-direction: row;
-    }
-    .pageFiltered{
-        display: flex;
-        flex-direction: row;  
-        justify-content: space-between;
-        width: 700px; 
-    }
-    .certificate{
-        width: 800px;
-        height: 1130px;
-        border: 3px solid;
-        background-color: rgb(255, 216, 216);
-        color: black;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-    }
-    .orderBlock{
-        margin: 15px 0px;
-    }
-    body{
-        padding: 0;
-        margin: 0;
-    }
-    .exhibitionLink{
-        background-color: blanchedalmond;
-        color: black;
-        padding: 20px;
-        width: 300px;
-        display: flex;
-        margin: 10px;
-        position: relative;
-        font-size: 15pt;
-    }
-    .exponateBlock{
-        display: flex;
-        flex-direction: row;
-        margin: 20px 0px;
-    }
-    .information{
-        display: flex;
-        margin: 0px 10px;
-        flex-direction: column;
-        width: 700px;
-    }
-    .titleLink{
-        font-size: 18pt;
-        font-weight: bold;
-        text-decoration:underline;
-        cursor: pointer;
-        color: black;
-    }
-    .halls{
-        margin: 30px 0px;
-    }
-    .photo{
-        height: 200px;
-    }
-    .excursionBlock{
-        margin: 10px 0px;
-    }
-    h1{
-        font-size: 25pt;
-        font-weight: bolder;
-        margin: 50px 0px;
-        display: flex;
-    }
-    h2{
-        font-size: 18pt;
-        font-weight: bold;
-    }
-    .link{
-        text-decoration: none;
-        cursor: pointer;
-        color: black;
-    }
-    .markedLink{
-        text-decoration:underline;
-        cursor: pointer;
-        color: brown;
-    }
-    .formColumn{
-        display:flex;
-        flex-direction: column;
-        margin:50px;
-        width: 200px;
-    }
-    .content{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .container{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        width: 1280px;
-        min-height: 720px;
-        background-color: #ffffff;
-    }
-    table{
-        border: solid black;
-    }
-    td{
-        border: solid black;
-    }
-    tr{
-        border: solid black;
-    }
-    #id_phone_number,#id_password,#id_first_name,#id_last_name,#id_email,#id_password_confirmation{
-        border-radius: 10px;
-        height: 30px;
-        background-color: rgb(255, 237, 224);
-    }
-    button{
-        width:fit-content;
-        padding: 0px 10px;
-        margin: 10px 0px;
-        font-size: 20pt;
-        background-color: rgb(255, 246, 217);
-    }
-    .checkboxBlock{
-        display: flex;
-        flex-direction: row;
-    }
-    .formTitle{
-        margin:10px 0px;
-        font-weight: bold;
-    }
-    .footerContent{
-        width:1280px;
-        margin:30px 0px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .footerBlock{
-        width:400px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-    }
-    .footerLogo{
-        margin:0px 20px;
-    }
-    .footerLink{
-        color:black;
-        margin:40px 10px;
-        text-decoration: underline;
-    }
-    .footer{
-        width: 100%;
-        height: 100px;
-        background-color:rgb(236, 133, 92);
-        display: flex;
-        justify-content: center;
-    }
-    .video{
-        flex-direction: row;
-        align-items: center;
-        display: flex;
-        justify-self: center;
-    }
-    article{
-        display: flex;
-        flex-direction: column;
-        font-size: 20pt;
-    }
-</style>
 <body>
-    <nav class="header">
-        <div class="headerBlock">
-            <a class = "link" href="/">Home</a>
-            <a class = "link" href="/shop">Books</a>
-            <a class = "link" href="/news">News</a>
-        </div>
-        <div style="flex-direction: column; justify-content: center;"  class="headerBlock">
-            <span style="margin: 2px; font-size: 10pt;">Our partners</span>
-            <div style = "width: 700px" class = "headerBlock">
-                <a href = "https://mangalib.me/"><img class="footerLogo" src = '/image/mangalib.png' height="75px"></a>
-                <i>
-                    Mangalib - the best site to read manga
-                </i>
-                <a href = "https://www.comicskrama.by/"><img class="footerLogo" src = '/image/comicsKrama.png' height="75px"></a>
-                <i>
-                    ComicsKrama - the greatest comics shop in Belarus
-                </i>
+    <header>
+        <nav style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+            <div class="headerBlock">
+                <a class = "link" href="/">Home</a>
+                <a class = "link" href="/shop">Books</a>
+                <a class = "link" href="/news">News</a>
             </div>
-        </div>
-        <div class="headerBlock">
-            {%if user.is_anonymous%}
-            <a class = "link" href="/login">Log in</a>
-            <a class = "link" href="/sign-up">Sign up</a>
-            {%else%}
-            <a class = "link" href="/profile">Profile</a>
-            <a class = "link" href="/logout">Logout</a>
-            {%endif%}
-        </div>
-    </nav>
+            <div style="flex-direction: column; justify-content: center;"  class="headerBlock">
+                <span style="margin: 2px; font-size: 10pt;">Our partners</span>
+                <div style = "width: 700px" class = "headerBlock">
+                    <a href = "https://mangalib.me/"><img class="footerLogo" src = '/image/mangalib.png' height="75px"></a>
+                    <i>
+                        <dfn>Mangalib</dfn> - the best site to read manga
+                    </i>
+                    <a href = "https://www.comicskrama.by/"><img class="footerLogo" src = '/image/comicsKrama.png' height="75px"></a>
+                    <i>
+                        <dfn>ComicsKrama</dfn> - the greatest comics shop in Belarus
+                    </i>
+                </div>
+            </div>
+            <div class="headerBlock">
+                {%if user.is_anonymous%}
+                <a class = "link" href="/login">Log in</a>
+                <a class = "link" href="/sign-up">Sign up</a>
+                {%else%}
+                <a class = "link" href="/profile">Profile</a>
+                <a class = "link" href="/logout">Logout</a>
+                {%endif%}
+            </div>
+        </nav>
+    </header>
     <div class="content">
         <div class="container">
         {%block content%}
         {% endblock%}
         </div>
     </div>
-    <div class="footer">
+    <footer>
         <div class="footerContent">
                 <div class = "footerBlock">
                     <a href = '/about' class="footerLink">About us</a>
@@ -269,6 +67,6 @@
                     <a href = '/privacypolicy' class="footerLink">Privacy policy</a>
                 </div>
         </div>
-    </div>
+    </footer>
 </body>
 </html>
