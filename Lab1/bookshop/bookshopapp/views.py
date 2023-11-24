@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count
 import requests
 import json
+import jsonpickle
 
 class AboutUsView(View):
     def get(self, req, *args, **kwargs):
@@ -103,7 +104,21 @@ class MainView(View):
             cat = requests.get("https://cataas.com/cat/says/You must work,{0} %0AWhy do you proCATstinating%3F".format(req.user.username))
         cat_fact = json.loads(requests.get("https://catfact.ninja/fact").content.decode())['fact']
         article = models.Article.objects.all().order_by("date")[0:3]
-        return render(req, 'bookshopapp/main.html', {'fact':cat_fact, "cat":cat, "news":article})
+        rotation_setting = models.RotationSetting.objects.get(id = 1).interval
+        banners = models.Banner.objects.all()
+        if(req.user.is_anonymous):
+            is_superuser = False
+        else:
+            is_superuser = User.objects.get(id=req.user.id).is_superuser
+        return render(req, 'bookshopapp/main.html', {'fact':cat_fact, "is_superuser":is_superuser, "cat":cat, "news":article, "banners":jsonpickle.encode(list(banners)),"interval":rotation_setting})
+    
+    def post(self, req, *args, **kwargs):
+        if(not User.objects.get(id=req.user.id).is_superuser):
+            return redirect('/')
+        rotation_setting = models.RotationSetting.objects.get(id = 1)
+        rotation_setting.interval = req.POST.get("brot")
+        rotation_setting.save()
+        return redirect('/')
 
 class LoginView(View):
     form_class = LoginForm
@@ -204,7 +219,7 @@ class OrderConfirmView(View):
 
     def get(self,req,*args,**kwargs):
         product = models.Product.objects.get(id=kwargs['product_id'])
-        return render(req,'bookshopapp/order.html',{'product':product})
+        return render(req,'bookshopapp/order.html',{'product':product,'promocodes':jsonpickle.encode(list(models.Promocode.objects.all()))})
 
 class StatisticsView(View):
 
@@ -246,4 +261,18 @@ class StatisticsView(View):
 
         return render(req,'bookshopapp/statistic.html',{'po':po.to_html(),'money':money})
 
-        
+class MatrixView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshopapp/matrix.html',{})
+
+class TextView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshopapp/text.html',{})
+
+class ScrollView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshopapp/scroll.html',{})
+
+class ArrayView(View):
+    def get(self, req, *args, **kwargs):
+        return render(req,'bookshopapp/arraytask.html',{})

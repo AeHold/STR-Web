@@ -3,7 +3,7 @@
 {%block content%}
 <h1>{{product.name}}</h1>
     <div class="productBlock">
-        <img src="{{product.cover.url}}" class="productPhoto" style="width:300px;height: 400px;">
+        <img id="poster" src="{{product.cover.url}}" class="productPhoto" style="width:300px;height: 400px;">
         <ul style="font-size: 20pt;">
             <li>Author:{{product.author}}</li>
             <li>Type:{{product.type}}</li>
@@ -50,4 +50,29 @@
         <textarea readonly draggable="false" style="width: 940px; height: 100px;">{{review.text}}</textarea> 
     </div>
 {%endfor%}
+{%endblock%}
+
+
+{%block script%}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      window.addEventListener("mousemove", mouse);
+    });
+
+    
+    const poster = document.getElementById('poster'),
+    walk = {x: 80, y: 50}
+
+    function mouse(e){
+        const width = 1600,
+        height = 1000;
+  
+        let { offsetX: x, offsetY: y} = e;
+        
+        const xWalk = Math.round((e.x / width / 2 * walk.x) - (walk.x / 4)),
+                yWalk = Math.round((e.y / height / 2  * walk.y) - (walk.y / 4));
+        
+        poster.style.transform = `rotateY(${-xWalk}deg) rotateX(${yWalk}deg)`;
+    }
+</script>
 {%endblock%}

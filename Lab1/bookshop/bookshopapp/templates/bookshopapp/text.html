@@ -1,0 +1,66 @@
+{% extends 'bookshopapp/base.html' %}
+{% block title %}Custom{% endblock %}
+{% block content %}
+<div>
+    <form class="filterWrapper">
+        <input type="checkbox" id="fontCheckbox"> Size
+        <input type="checkbox" id="colorCheckbox"> Color
+        <input type="checkbox" id="backgroundCheckbox"> Background color
+        <div id = 'fontSizeBlock' hidden>
+            Size: <input type="number" id="font" min="0" > pt
+        </div>
+        <div id = 'fontColorBlock' hidden>
+            Color: <input type="color" id="textColor" value="#000000">
+        </div>
+        <div id = 'backgroundBlock' hidden>
+            Background color:  <input type="color" id="backgroundColor" value="#ffffff">
+        </div>
+    </form>  
+    <button onclick="apply();">Apply</button>
+    <br>
+    <div id="custom" style="width:600px;height:300px;">
+        Some text here <br> Some text here    
+    </div> 
+    
+</div>
+{% endblock %}
+
+{%block script%}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const fontCheckbox = document.getElementById('fontCheckbox');
+      const colorCheckbox = document.getElementById('colorCheckbox');
+      const backgroundCheckbox = document.getElementById('backgroundCheckbox');
+  
+      const fontSize = document.getElementById('fontSizeBlock');
+      const textColor = document.getElementById('fontColorBlock');
+      const backgroundColor = document.getElementById('backgroundBlock');
+      
+  
+      fontCheckbox.addEventListener('change', function () {
+        fontSize.hidden = !this.checked;
+      });
+  
+      colorCheckbox.addEventListener('change', function () {
+        textColor.hidden = !this.checked;
+      });
+  
+      backgroundCheckbox.addEventListener('change', function () {
+        backgroundColor.hidden = !this.checked;
+      });
+  
+    });
+
+    const custom = document.getElementById('custom')
+
+    const fontSizeInput = document.getElementById('font');
+    const textColorInput = document.getElementById('textColor');
+    const backgroundColorInput = document.getElementById('backgroundColor');
+
+    function apply() {
+      custom.style.fontSize = fontSizeInput.value + 'pt';
+      custom.style.color = textColorInput.value;
+      custom.style.backgroundColor = backgroundColorInput.value;
+    }
+  </script>
+{%endblock%}

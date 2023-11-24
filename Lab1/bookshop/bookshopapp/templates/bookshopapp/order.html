@@ -1,13 +1,84 @@
 {%extends "bookshopapp/base.html"%}
 {%block title%}Order confirm{%endblock%}
 {%block content%}
-<form method="post">
+<div class="productBlock">
+    <img src="{{product.cover.url}}" class="productPhoto" style="width:300px;height: 400px;">
+    <ul style="font-size: 20pt;">
+        <li>Author:{{product.author}}</li>
+        <li>Type:{{product.type}}</li>
+        <li>Price: <span id="price">{{product.price}}</span></li>
+    </ul>
+</div>
+<form id = 'orderForm'method="post" style="display: flex; flex-direction: column;">
     {%csrf_token%}
     <input type="number" value="{{product.id}}" name="product" hidden>
-    <input type="text" maxlength="30" name="city">
-    <input type="text" maxlength="30" name="street">
-    <input type="text" maxlength="30" name="house">
-    <input type="text" maxlength="30" name="appartments" required="false">
-    <button type="submit">Confirm</button>
+    <input type="text" maxlength="30" name="city" placeholder="city">
+    <input type="text" maxlength="30" name="street" placeholder="street">
+    <input type="text" maxlength="30" name="house" placeholder="house">
+    <input type="text" maxlength="30" name="appartments" required="false" placeholder="appartaments">
+    <br>
+
+    <input type="text" maxlength="10" name="promocodde" id="promocode" placeholder="promocode" style="margin:10px 0px">
 </form>
+<button onclick="confirmOrder();">Confirm</button>
+<dialog id="18Dialog" style="width:300px;height:300px;left:700px;top:400px;position: absolute;" hidden>
+Enter your birthday <input id="dateInput" type="date">
+<button onclick="enterDate();" >Enter</button>
+<a href="/home"><button>No</button></a>
+</dialog>
+{%endblock%}
+{%block script%}
+<script>
+
+function confirmOrder(){
+        promo = document.getElementById('promocode').value
+        promoArr = jQuery.parseJSON('{{promocodes|escapejs}}')
+        for (var i = 0; i < promoArr.length;i++){
+            if(promoArr[i]['py/reduce'][2]['promo']==promo)
+            {
+                document.getElementById('price').innerHTML = '{{product.price|escapejs}}' - '{{product.price|escapejs}}' * promoArr[i]['py/reduce'][2]['discount'] / 100
+                alert('Promo was apply')
+                return showDialog();
+            }
+        }
+        alert('Promocode wasnt apply')
+        showDialog();
+    }
+
+    function showDialog(){
+        console.log(document.getElementById('18Dialog'))
+        document.getElementById('18Dialog').hidden = false
+        document.getElementById('18Dialog').open = true
+    }
+
+    function enterDate(){
+      var birthDate = new Date(document.getElementById('dateInput').value);
+      var currentDate = new Date();
+
+      var age = currentDate.getFullYear() - birthDate.getFullYear();
+
+      if (currentDate.getMonth() < birthDate.getMonth() ||
+          (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      var days = [  'Sun',
+                    'Mon',
+                    'Tue',
+                    'Wen',
+                    'Thu',
+                    'Fri',
+                    'Sst' ];
+
+      alert('Day of week:'+days[currentDate.getDay()])
+
+      if(age<18)
+      {
+        alert('You are not that old to order on our site!!!!!!')
+      }
+      else{
+        document.getElementById('orderForm').submit()
+      }
+    }
+</script>
 {%endblock%}

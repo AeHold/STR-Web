@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshopapp',
     'phonenumber_field',
+    'jsonpickle'
 ]
 
 MIDDLEWARE = [

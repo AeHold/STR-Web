@@ -1,0 +1,88 @@
+{% extends 'bookshopapp/base.html' %}
+{% block title %}Bookshelf{% endblock %}
+{% block content %}
+  <style>
+    .scroll-container {
+      position: relative;
+      width: 100%;
+      height: 1600px;
+     background-color: #b67d7d;
+      overflow: hidden;
+    }
+
+    .bookshelf-left, .bookshelf-right{
+      position: absolute;
+      border: none;
+      background-image: url('/image/bookshelf.jpg');
+      top: 0;
+      width: 50%;
+      height: 100%;
+    }
+
+    .bookshelf-left{
+      left: 0;
+      transform-origin: right;
+    }
+
+    .bookshelf-right{
+      right: 0;
+      transform:scaleX(-1);
+    }
+
+    .message {
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px;
+      color: #fff;
+      opacity: 0;
+    }
+  </style>
+  <div class="scroll-container">
+    <div class="background" id="background"></div>
+    <div class="bookshelf-left" id="bookshelf-left"></div>
+    <div class="bookshelf-right" id="bookshelf-right"></div>
+
+    <div class="message" id="message">Welcome to British Book</div>
+  </div>
+
+  
+
+{% endblock %}
+{%block script%}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      window.addEventListener("scroll", revealScene);
+    });
+
+    function revealScene() {
+      var bookshelfLeft = document.getElementById("bookshelf-left");
+      var bookshelfRight = document.getElementById("bookshelf-right");
+      var background = document.getElementById("background");
+      var message = document.getElementById("message");
+
+      var scrollPosition = window.scrollY;
+      var fullHeight=972;
+      var semiWidth = 640;
+
+      if(scrollPosition>200){
+          bookshelfLeft.style.transform = "translateX( -" + 100*(scrollPosition-200)/(fullHeight-200) + "%)";
+          bookshelfRight.style.transform = "translateX(" + 100*(scrollPosition-200)/(fullHeight-200) + "%) scaleX(-1)";
+      }
+      else
+      {
+        bookshelfLeft.style.transform = "translateX(0%)";
+        bookshelfRight.style.transform = "translateX(0%) scaleX(-1)";
+      }
+
+      if (scrollPosition > 400) {
+        message.style.transform = "translate(-50%, -50%) scale(1)";
+        message.style.opacity = (scrollPosition - fullHeight) / fullHeight+0.5;
+      } else {
+        message.style.transform = "translate(-50%, -50%) scale(0)";
+        message.style.opacity = 0;
+      }
+    }
+  </script>
+{%endblock%}

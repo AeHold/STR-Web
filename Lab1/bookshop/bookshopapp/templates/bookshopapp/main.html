@@ -1,7 +1,11 @@
 {%extends "bookshopapp/base.html"%}
 {%block title%}Home{%endblock%}
 {%block content%}
+<h3 style = 'position:fixed;top:100px;left:100px' id = 'timer'></h3>
 <marquee>New books are expected to arrive soon, check the website for the availability of the desired product:)</marquee>
+<form method="post" id = "interval_form" hidden>{%csrf_token%}
+    Interval in ms
+    <input type="number" name="brot"></form>
 <h1>Welcom to our shop</h1>
 <p>Ernest Hemingway - <q>There is no friend as loyal as a book</q></p>
 <img class = "profilePhoto" src="{{cat.url}}">
@@ -10,6 +14,10 @@
     <option>Cool</option>
     <option>Boring</option>
 </select>
+
+<a>
+    <img style="width:600px;height:200px;" id="banner">
+</a>
 <h2>Last news</h2>
 {% for i in news %}
     <a href = "{%url 'article' article_id=i.id%}"><div style="display: flex; flex-direction: row; margin-top: 20px;">
@@ -21,4 +29,95 @@
     </div>
 </a>
 {%endfor%}
+{%endblock%}
+{%block script%}
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+    var timerValue = localStorage.getItem("timerValue");
+    if (timerValue === null) {
+        timerValue = 60 * 60
+    } else {
+        timerValue = parseInt(timerValue);
+    }
+    starttimer(timerValue);
+    });
+
+    if("{{is_superuser|escapejs}}" == "True") {
+        document.getElementById("interval_form").hidden = false
+    }
+
+    function starttimer(seconds) {
+      var timerElement = document.getElementById("timer");
+
+      var timerInterval = setInterval(function() {
+    
+        timerElement.innerHTML = formatTime(seconds);
+        seconds--;
+
+        localStorage.setItem("timerValue", seconds.toString());
+
+        if (seconds < 0) {
+          clearInterval(timerInterval);
+          timerElement.innerHTML = "Times out!";
+        }
+      }, 1000); 
+    }
+
+    function formatTime(seconds) {
+      var hours = Math.floor(seconds / 3600);
+      var minutes = Math.floor((seconds % 3600) / 60);
+      var remainingSeconds = seconds % 60;
+
+      hours = padZero(hours);
+      minutes = padZero(minutes);
+      remainingSeconds = padZero(remainingSeconds);
+
+      return hours + ":" + minutes + ":" + remainingSeconds;
+    }
+
+    function padZero(number) {
+      return number < 10 ? "0" + number : number;
+    }
+
+
+    let banners = jQuery.parseJSON('{{banners|escapejs}}');
+    let currentIndex = 0;
+    let rotationInterval;
+    let isPageFocused = true;
+
+    function startRotation() {
+        console.log('start')
+        const intervalMSeconds = '{{interval|escapejs}}';
+        rotationInterval = setInterval(rotateBanner, intervalMSeconds);
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+    }
+
+    function stopRotation() {
+        console.log('stop')
+        clearInterval(rotationInterval);
+    }
+
+    function rotateBanner() {
+        console.log('rotate')
+        currentIndex = (currentIndex + 1) % banners.length;
+        const banner = document.getElementById('banner');
+        banner.src = '/image/'+ banners[currentIndex]['py/reduce'][2].photo;
+        banner.parentElement.href = `${banners[currentIndex]['py/reduce'][2].url}`;
+    }
+
+    function handleVisibilityChange() {
+        isPageFocused = document.visibilityState === 'visible';
+
+        if (isPageFocused) {
+        startRotation();
+        } else {
+        stopRotation();
+        }
+    }
+
+    rotateBanner();
+    startRotation();
+</script>
 {%endblock%}

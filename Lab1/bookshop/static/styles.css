@@ -43,7 +43,7 @@ header{
 .certificate{
     width: 800px;
     height: 1130px;
-    border: 3px solid;
+    border: 10px solid;
     background-image: url('fon.jpg');
     background-repeat: no-repeat;
     background-size: 800px 1130px;
@@ -52,6 +52,8 @@ header{
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    border-image: linear-gradient(rgba(34,193,195, 1) 0%, rgba(253,187,45, 1) 100%) 1;
+    
 }
 .orderBlock{
     margin: 15px 0px;
@@ -106,6 +108,7 @@ h1{
 h2{
     font-size: 18pt;
     font-weight: bold;
+    text-transform: lowercase;
 }
 h3{
     font-size: 20pt;
@@ -185,6 +188,7 @@ button{
 }
 .grid-container{
     display: grid;
+    flex-direction: column;
     gap:20px;
 }
 .checkboxBlock{
@@ -319,7 +323,7 @@ ul{
     }
 }
 .articleColumns{
-    columns: 280px 3;
+    columns: 280px 2;
     font-size: 12pt;
     word-wrap: normal;
 }
@@ -341,6 +345,7 @@ p{
     bottom: 400px;
     left: 100px;
     position: relative;
+    
 }
 .questionBlock{
     font-size: 20pt;

@@ -9,4 +9,6 @@ admin.site.register(models.Product)
 admin.site.register(models.Post)
 admin.site.register(models.Article)
 admin.site.register(models.FAQ)
-
+admin.site.register(models.Banner)
+admin.site.register(models.RotationSetting)
+admin.site.register(models.Promocode)

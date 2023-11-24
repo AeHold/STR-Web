@@ -75,3 +75,15 @@ class Review(models.Model):
     date = models.DateField()
     author = models.ForeignKey(Profile, related_name = "review", on_delete = models.CASCADE)
     rate = models.IntegerField()
+
+class Promocode(models.Model):
+    discount = models.FloatField()
+    promo = models.CharField(max_length=30)
+
+
+class Banner(models.Model):
+    photo = models.ImageField()
+    url = models.CharField(max_length=1000)
+
+class RotationSetting(models.Model):
+    interval = models.IntegerField(default=1000000)
